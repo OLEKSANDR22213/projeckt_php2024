@@ -67,7 +67,7 @@ def login():
         if user and check_password_hash(user.password, password):
             session['user_id'] = user.user_id
             session['email'] = email
-            session['username'] = user.username  # Сохраняем имя пользователя
+            session['username'] = user.username 
             flash('Login successful!', 'success')
             return redirect(url_for('home'))
         else:
@@ -82,7 +82,7 @@ def register():
         email = request.form['email']
         password = request.form['password']
         
-        store.register_user(username, email, password)  # Передаем правильные аргументы
+        store.register_user(username, email, password)  
         flash('Registration successful!', 'success')
         return redirect(url_for('login'))
     
@@ -96,7 +96,7 @@ def cart():
     cart_items = store.get_cart(session['user_id'])
     total_amount = sum(item['price'] * item['quantity'] for item in cart_items)
 
-    # Передаем объект store в шаблон
+
     return render_template('cart.html', cart_items=cart_items, total_amount=total_amount, store=store)
 
 @app.route('/add_to_cart/<int:product_id>')
@@ -104,7 +104,7 @@ def add_to_cart(product_id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
-    store.add_to_cart(session['user_id'], product_id, quantity=1)  # Добавляем продукт в корзину
+    store.add_to_cart(session['user_id'], product_id, quantity=1) 
     flash('Product added to cart!', 'success')
     return redirect(url_for('cart'))
 
@@ -160,7 +160,7 @@ def submit_review(product_id):
     
     review_text = request.form['review']
     user_id = session['user_id']
-    username = session.get('username')  # Используем get для безопасного извлечения
+    username = session.get('username') 
     store.add_review(product_id, user_id, review_text, username)
     flash('Your review has been submitted!', 'success')
     return redirect(url_for('product_detail', product_id=product_id))
@@ -171,9 +171,9 @@ def remove_from_cart(product_id):
         flash('You must be logged in to remove items from your cart.', 'error')
         return redirect(url_for('login'))
     
-    store.remove_from_cart(session['user_id'], product_id)  # Удаляем товар из корзины
+    store.remove_from_cart(session['user_id'], product_id)  
     flash('Item removed from cart!', 'success')
-    return redirect(url_for('cart'))  # Перенаправляем на страницу корзины
+    return redirect(url_for('cart')) 
 
 @app.route('/submit_product', methods=['POST'])
 def submit_product():
@@ -181,7 +181,6 @@ def submit_product():
     price = request.form['price']
     description = request.form['description']
     
-    # Логика добавления продукта
     store.add_product(product_name, price, description)
     flash('Product submitted successfully!', 'success')
     return redirect(url_for('home'))

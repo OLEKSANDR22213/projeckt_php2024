@@ -9,9 +9,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class OnlineStore:
     def __init__(self):
-        self.products = []  # Список продуктов в памяти
-        self.carts = {}  # Словарь для хранения корзин пользователей
-        self.users = []  # Список пользователей
+        self.products = [] 
+        self.carts = {} 
+        self.users = []  
         self.next_user_id = 1
         self.next_product_id = 1
 
@@ -24,7 +24,7 @@ class OnlineStore:
             'stock': stock,
             'image_url': image_url,
             'category': category,
-            'reviews': []  # Инициализация ключа 'reviews'
+            'reviews': [] 
         }
         self.products.append(product)
         self.next_product_id += 1
@@ -33,7 +33,7 @@ class OnlineStore:
         return self.products
 
     def get_product_by_id(self, product_id):
-        return next((p for p in self.products if p['id'] == product_id), None)  # Возвращает продукт по ID
+        return next((p for p in self.products if p['id'] == product_id), None) 
 
     def get_cart(self, user_id):
         return self.carts.get(user_id, [])
