@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Products</h2>
+
+<form method="GET" action="{{ url_for('home') }}">
+    <div class="form-group">
+        <label for="category">Filter by Category:</label>
+        <select name="category" id="category" class="form-control">
+            <option value="">All</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Gadgets">Gadgets</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="text-decoration-none">
+                <img src="{{ url_for('static', filename=product.image_url) }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title text-dark">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text">Price: ${{ "%.2f"|format(product.price) }}</p>
+                    <p class="card-text">Stock: {{ product.stock }}</p>
+                    {% if 'user_id' in session %}
+                    <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary">Add to Cart</a>
+                    {% endif %}
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 
