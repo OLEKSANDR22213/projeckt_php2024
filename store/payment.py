@@ -6,7 +6,6 @@ class PaymentProcessor:
         self.payments: Dict[int, bool] = {}
 
     def process_payment(self, order: Order) -> bool:
-        # Simulate payment processing
         success = True
         self.payments[order.id] = success
         return success 

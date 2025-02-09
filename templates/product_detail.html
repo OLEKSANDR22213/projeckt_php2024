@@ -7,14 +7,15 @@
             <img src="{{ url_for('static', filename=product.image_url) }}" class="img-fluid rounded" alt="{{ product.name }}">
         </div>
         <div class="col-md-6">
-            <h2>{{ product.name }}</h2>
-            <p class="lead">{{ product.description }}</p>
-            <h3 class="text-primary">${{ "%.2f"|format(product.price) }}</h3>
-            <p class="text-muted">Stock: {{ product.stock }} units available</p>
+            <h1>{{ product['name'] }}</h1>
+            <p>Price: {{ product['price'] }}</p>
+            <p>Description: {{ product['description'] }}</p>
+            <h3 class="text-primary">${{ "%.2f"|format(product['price']) }}</h3>
+            <p class="text-muted">Stock: {{ product['stock'] }} units available</p>
             <h4>Specifications:</h4>
-            <p>{{ product.specifications }}</p>
+            <p>{{ product['specifications'] }}</p>
             {% if 'user_id' in session %}
-            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-lg btn-primary">Add to Cart</a>
+            <a href="{{ url_for('add_to_cart', product_id=product['id']) }}" class="btn btn-lg btn-primary">Add to Cart</a>
             {% else %}
             <a href="{{ url_for('login') }}" class="btn btn-lg btn-secondary">Login to Purchase</a>
             {% endif %}
@@ -24,10 +25,10 @@
     <hr>
     
     <h4>Product Characteristics:</h4>
-    <p>{{ product.specifications }}</p>
+    <p>{{ product['specifications'] }}</p>
     
     <h4>Leave a Review:</h4>
-    <form method="POST" action="{{ url_for('submit_review', product_id=product.id) }}">
+    <form method="POST" action="{{ url_for('submit_review', product_id=product['id']) }}">
         <div class="form-group">
             <label for="review">Your Review:</label>
             <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
@@ -37,11 +38,11 @@
     
     <h4>Reviews:</h4>
     <div id="reviews">
-        {% for review in product.reviews %}
-            <div class="review">
-                <p><strong>{{ review.user.username }}</strong>: {{ review.text }}</p>
-            </div>
-        {% endfor %}
+        <ul>
+            {% for review in product['reviews'] %}
+                <li>{{ review['review_text'] }} - {{ review['username'] }}</li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %} 
